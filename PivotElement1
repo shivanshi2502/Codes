@@ -1,0 +1,43 @@
+//to find pivot element where pivot element is the element where monotonicity breaks
+
+#include <iostream>
+using namespace std;
+int pivotIndex(int arr[],int size){
+    int s=0;
+    int e=size-1;
+    int m= ((e-s)/2)+s;
+    int ans=size-1;
+    while(s<e){
+        if(arr[m]<arr[m-1] && m-1>=s){
+            return m-1;
+        }
+        else if(arr[m]>arr[m+1] && m+1<=e){
+            return m;
+        }
+        if(arr[m]<arr[s]){
+            e=m-1;
+        }
+        else{
+            s=m+1;
+        }
+        m= ((e-s)/2)+s;
+    }
+    if(s==e){
+        return s;
+    }
+    return ans;
+}
+int main()
+{
+    int n;
+    cout<<"enter no of elements in array"<<endl;
+    cin>>n;
+    int arr[1000];
+    cout<<"enter the elements in array"<<endl;
+    for(int i=0;i<n;i++){
+        cin>>arr[i];
+    }
+    int ans= pivotIndex(arr,n);
+    cout<<"the pivot element is "<<arr[ans]<<endl;
+    return 0;
+}
