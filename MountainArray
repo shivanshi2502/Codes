@@ -1,0 +1,17 @@
+//to find peak element in an mountain array (Leetcode question)
+
+int peakIndexInMountainArray(vector<int>& arr) {
+        int s=0;
+        int e= arr.size()-1;
+        int m=((e-s)/2)+s;
+        while(s<e){
+            if(arr[m]<arr[m+1]){
+                s=m+1;
+            }
+            else{
+                e=m;
+            }
+            m=((e-s)/2)+s;
+        }
+        return s;
+    }
