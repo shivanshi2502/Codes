@@ -1,0 +1,61 @@
+// to find an element in rotated and sorted array
+// Leetcode ques---> gives runtime error but acc to me the code is correct !!
+
+int PivotIndex(vector<int>& nums, int size){
+        int s=0;
+        int e=size-1;
+        int m=((e-s)/2)+s;
+        int ans=size-1;
+        while(s<=e){
+            if(nums[m]>nums[m-1]){
+                return m;
+            }
+            else if(nums[m-1]>nums[m]){
+                return m-1;
+            }
+            if(nums[s]>nums[m]){
+                e=m-1;
+            }
+            else{
+                s=m+1;
+            }
+            m=((e-s)/2)+s;
+        }
+        if(s==e){
+            return s;
+        }
+        return ans;
+    }
+    int binarySearch(vector<int>& nums,int start, int end, int target){
+        int mid=((end-start)/2)+start;
+        while(start<=end){
+            if(nums[mid]==target){
+                return mid;
+            }
+            else if(nums[mid]>target){
+                end=mid-1;
+            }
+            else{
+                start=mid+1;
+            }
+            mid=((end-start)/2)+start;
+        }
+        if(start==end){
+            return start;
+        }
+        return -1;
+    }
+    int search(vector<int>& nums, int target) {
+        int size=nums.size();
+        int pivot= PivotIndex(nums,size);
+        if(target==nums[pivot]){
+            return pivot;
+        }
+        else if(target>= nums[0] && target<= nums[pivot]){
+            return binarySearch(nums,0,pivot,target);
+        }
+        else if(target>= nums[pivot+1] && target <= nums[size-1]){
+            return binarySearch(nums,pivot+1,size-1,target);
+        }
+        return -1;
+    }
