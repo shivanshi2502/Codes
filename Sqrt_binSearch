@@ -1,0 +1,23 @@
+//square root using binary Search
+
+int mySqrt(int x) {
+        int s=0;
+        int e=x;
+        long long int m=s+(e-s)/2;
+        int ans=-1;
+        while(s<=e){
+            long long int value= m*m;
+            if( value == x){
+                return m;
+            }
+            else if(m*m > x){
+                e=m-1;
+            }
+            else{
+                ans=m;
+                s=m+1;
+            }
+            m=s+(e-s)/2;
+        }
+        return ans;
+    }
