@@ -1,0 +1,48 @@
+//Painters partition problem
+
+bool isPossible(vector<int> &boards, int k, int mid){
+    int c=1;
+    int sum=0;
+    for(int i=0;i<boards.size();i++){
+        if(boards[i]>mid){
+            return false;
+        }
+        else if(boards[i]+ sum > mid){
+            c++;
+            sum=boards[i];
+            if(c>k){
+                return false;
+            }
+        }
+        else{
+            sum=sum+boards[i];
+        }
+    }
+    return true;
+}
+
+int findLargestMinDistance(vector<int> &boards, int k)
+{
+    if(k>boards.size()){
+        return -1;
+    }
+    int s=0;
+    int e=0;
+    int ans=-1;
+    for(int i=0;i<boards.size();i++){
+        e=e+boards[i];
+    }
+    int mid=s+(e-s)/2;
+    while(s<=e){
+        if(isPossible(boards,k,mid)){
+            ans=mid;
+            e=mid-1;
+        }
+        else{
+            s=mid+1;
+        }
+        mid=s+(e-s)/2;
+    }
+    return ans;
+
+}
