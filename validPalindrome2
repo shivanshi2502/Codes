@@ -1,0 +1,29 @@
+// return true if by deleting 1 char in string s it becomes valid palindrome else return false
+//leetcode ques
+bool checkPalindrome(string s, int start, int end){
+    while(start<=end){
+        if(s[start]==s[end]){
+            start++;
+            end--;
+        }
+        else{
+            return false;
+        }
+    }
+    return true;
+}
+    bool validPalindrome(string s) {
+        int i=0;
+        int j=s.length()-1;
+        int count=0;
+        while(i<=j){
+            if(s[i]==s[j]){
+                i++;
+                j--;
+            }
+            else{
+                return checkPalindrome(s,i,j-1) || checkPalindrome(s,i+1,j);
+            }
+        }
+        return true;
+    }
