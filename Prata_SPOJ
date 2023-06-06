@@ -1,0 +1,64 @@
+#include <iostream>
+#include<algorithm>
+#include<vector>
+using namespace std;
+bool isPossible(vector<int> &ranks, int C, int P, int mid){
+    int totalP=0;
+   // int currTime=0;
+    for(int i=0;i<C;i++){
+        int rank=ranks[i];
+        int currP=1;
+        int currTime=0;
+        while(true){
+            if(currTime+currP*rank <= mid){
+                currTime=currTime+currP*rank;
+                currP++;
+                totalP++;
+            }
+            else{
+                break;
+            }
+        }
+        if(totalP>=P){
+            return true;
+        }
+    }
+    return false;
+}
+int solve(vector<int> ranks, int C, int P){
+    sort(ranks.begin(),ranks.end());
+    int s=0;
+    int size= ranks.size();
+    int highestRank=ranks[size-1];
+    int e= P*(highestRank*(highestRank+1))/2;
+    int ans=-1;
+    int mid= s+(e-s)/2;
+    while(s<=e){
+        if(isPossible(ranks,C,P,mid)){
+            ans=mid;
+            e=mid-1;
+        }
+        else{
+            s=mid+1;
+        }
+        mid= s+(e-s)/2;
+    }
+    return ans;
+}
+int main(){
+    vector<int> ranks;
+    int P;
+    int C;
+    cout<<"Enter no of pranthas"<<endl;
+    cin>>P;
+    cout<<"Enter no of cooks"<<endl;
+    cin>>C;
+    cout<<"Enter ranks of cooks"<<endl;
+    for(int i=0;i<C;i++){
+        int R;
+        cin>>R;
+        ranks.push_back(R);
+    }
+    cout<<"Minimum time taken is"<<solve(ranks,C,P)<<endl;
+    return 0;
+}
