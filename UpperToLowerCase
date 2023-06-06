@@ -1,0 +1,16 @@
+#include <iostream>
+#include<string>
+#include<cstring>
+using namespace std;
+
+int main()
+{
+    char st[1000];
+    cin.getline(st,1000);
+    int len= strlen(st);
+    for(int i=0;i<len;i++){
+       st[i]=st[i]-'a'+'A'; //lower to uppercase
+       st[i]=st[i]-'A'+'a'; //uppercase to lowercase
+    }
+    cout<<st;
+}
