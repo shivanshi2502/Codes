@@ -1,0 +1,54 @@
+// Valid Anagram
+METHOD 1 (correct but fails 3 test cases)
+bool isAnagram(string s, string t) {
+        if(s.length()!=t.length()){
+            return false;
+        }
+        else{
+            int n=s.length();
+            for(int i=0;i<n;i++){
+                char val=s[i];
+                for(int j=0;j<n;j++){
+                    if(t[j]==val){
+                        t[j]='\0';
+                        break;
+                    }
+                }
+            }
+            for(int k=0;k<n;k++){
+                if(t[k]!='\0'){
+                    return false;
+                }
+            }
+        }
+        return true;
+   }
+   
+   METHOD 2 (passes all test cases)
+   bool isAnagram(string s, string t) {
+   if(s.length()!=t.length()){
+            return false;
+        }
+        vector<int> st1;
+        vector<int> st2;
+        for(int i=0;i<s.length();i++){
+            int val=s[i]-'a';
+            st1.push_back(val);
+        }
+        for(int i=0;i<t.length();i++){
+            int val=t[i]-'a';
+            st2.push_back(val);
+        }
+        sort(st1.begin(),st1.end());
+        sort(st2.begin(),st2.end());
+        int i=0;
+        while(i<st1.size()){
+            if(st1[i]==st2[i]){
+                i++;
+            }
+            else{
+                return false;
+            }
+        }
+        return true;
+    }
