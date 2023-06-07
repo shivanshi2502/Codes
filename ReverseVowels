@@ -1,0 +1,33 @@
+//reverse vowels of a string
+bool checkVowel(char ch){
+        if(ch=='a'||ch=='e'||ch=='i'||ch=='o'||ch=='u'){
+            return true;
+        }
+        else if(ch=='A'||ch=='E'||ch=='I'||ch=='O'||ch=='U'){
+            return true;
+        }
+        return false;
+    }
+    string reverseVowels(string s) {
+        int n=s.length()-1;
+        int i=0;
+        int j=n;
+        while(i<=j){
+            if(checkVowel(s[i]) && checkVowel(s[j])){
+                swap(s[i],s[j]);
+                i++;
+                j--;
+            }
+            else if(checkVowel(s[i])){
+                j--;
+            }
+            else if(checkVowel(s[j])){
+                i++;
+            }
+            else{
+                i++;
+                j--;
+            }
+        }
+        return s;
+    }
