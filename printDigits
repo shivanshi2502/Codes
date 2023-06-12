@@ -1,0 +1,17 @@
+#include <iostream>
+#include<string>
+using namespace std;
+void printdigits(int n){
+    if(n==0){
+        return;
+    }
+    printdigits(n/10); //in same order
+    cout<<n%10<<" ";
+    printdigits(n/10); //in reverse order
+}
+
+int main()
+{
+    int num = 647;
+    printdigits(num);
+}
