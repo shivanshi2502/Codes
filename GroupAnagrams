@@ -1,0 +1,56 @@
+// Group Anagrams
+
+METHOD-1 ( Correct but fails 7 test cases )
+bool isAnagram(string s1, string s2){
+        if(s1.length()!=s2.length()){
+            return false;
+        }
+        int hash[26]={0};
+        for(int i=0;i<s1.length();i++){
+            hash[s1[i]-'a']++;
+        }
+        for(int i=0;i<s2.length();i++){
+            hash[s2[i]-'a']--;
+        }
+        for(int i=0;i<26;i++){
+            if(hash[i]!=0){
+                return false;
+            }
+        }
+        return true;
+    }
+    vector<vector<string>> groupAnagrams(vector<string>& strs) {
+        int n=strs.size();
+        set <vector<string>> answer;
+        vector<vector<string>> Ans;
+        for(int i=0;i<n;i++){
+            string st=strs[i];
+            vector<string> group;
+            for(int j=0;j<n;j++){
+                string st2=strs[j];
+                if(isAnagram(st,st2)){
+                    group.push_back(st2);
+                }
+            }
+            answer.insert(group);
+        }
+        for( auto i: answer){
+            Ans.push_back(i);
+        }
+        return Ans;
+    }
+    
+    METHOD-2 ( all test cases pass )
+    vector<vector<string>> groupAnagrams(vector<string>& strs) {
+        map< string, vector <string> > mp;
+        for(auto str:strs){
+            string s=str;
+            sort(s.begin(),s.end());
+            mp[s].push_back(str);
+        }
+        vector<vector<string>> answer;
+        for(auto i=mp.begin(); i!=mp.end();i++){
+            answer.push_back(i->second);
+        }
+        return answer;
+    }
