@@ -54,3 +54,24 @@ bool isAnagram(string s1, string s2){
         }
         return answer;
     }
+    
+    METHOD-3 ( all test cases pass )
+    std::array<int,256> hashing(string s){
+        std::array<int,256> hash={0};
+        for(int i=0;i<s.size();i++){
+            hash[s[i]]++;
+        }
+        return hash;
+    }
+    vector<vector<string>> groupAnagrams(vector<string>& strs) {
+        map<std::array<int,256>, vector <string> > mp;
+        for(auto str:strs){
+            string s=str;
+            mp[hashing(s)].push_back(str);
+        }
+        vector<vector<string>> answer;
+        for(auto i=mp.begin(); i!=mp.end();i++){
+            answer.push_back(i->second);
+        }
+        return answer;
+    }
