@@ -1,0 +1,21 @@
+// Find max element in an array using recursion
+#include <iostream>
+using namespace std;
+int MaxElement(int arr[], int n, int maxi){
+    //base case
+    if(n==0){
+        return max(maxi,arr[0]);
+    }
+    //processing
+    int chotiproblem= MaxElement(arr+1,n-1,maxi);
+    //recursive call
+    int bdiproblem= max(arr[0],chotiproblem);
+    return bdiproblem;
+}
+
+int main()
+{
+    int arr[5]={56,78,23,45,11};
+    int n=5;
+    cout<<MaxElement(arr,n,-99999);
+}
