@@ -1,0 +1,25 @@
+// array is sorted or not using recursion
+
+#include <iostream>
+#include<vector>
+using namespace std;
+
+bool isSorted(vector<int>&v, int index){
+    //base case
+    if(index>=v.size()){
+        return true;
+    }
+    if(v[index]>=v[index-1]){
+        return isSorted(v,index+1);
+    }
+    else{
+        return false;
+    }
+}
+
+int main()
+{
+    vector<int> v{20,30,40,60,80};
+    int index=1;
+    cout<<isSorted(v,index);
+}
