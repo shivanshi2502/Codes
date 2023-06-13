@@ -1,0 +1,33 @@
+// Binary Search using recursion
+
+#include <iostream>
+#include<vector>
+using namespace std;
+
+int binarySearch(vector<int>&v, int s,int e,int target){
+    //base case
+    if(s>e){
+        return -1;
+    }
+    //ek case
+    int mid=s+(e-s)/2;
+    if(v[mid]==target){
+        return mid;
+    }
+    //recursion
+    else if(v[mid]>target){
+        return binarySearch(v,s,mid-1,target);
+    }
+    else{
+        return binarySearch(v,mid+1,e,target);
+    }
+}
+
+int main()
+{
+    vector<int> v{20,30,50,60,80};
+    int s=0;
+    int e=v.size()-1;
+    int target=20;
+    cout<<"tareget is present at index "<<binarySearch(v,s,e,target);
+}
