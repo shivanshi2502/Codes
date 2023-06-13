@@ -1,0 +1,26 @@
+// print all subsequences
+#include <iostream>
+#include<vector>
+#include<string>
+using namespace std;
+
+void printSubsequences(string input, string output,int index){
+    //base case
+    if(index>=input.length()){
+        cout<<output<<" ";
+        return;
+    }
+    char ch=input[index];
+    printSubsequences(input,output,index+1); //exclude-case
+    output=output+ch;
+    printSubsequences(input,output,index+1); //include-case
+    return;
+}
+
+int main()
+{
+    string input="abc";
+    string output="";
+    int index=0;
+    printSubsequences(input,output,index);
+}
