@@ -1,0 +1,54 @@
+// String Compression
+
+int compress(vector<char>& chars) {
+        int n=chars.size();
+        int prev=0;
+        int i=prev+1;
+        int index=0;
+        int count=1;
+        while(i<=n-1){
+            if(chars[i]==chars[prev]){
+                count++;
+            }
+            else{
+                chars[index]=chars[prev];
+                index++;
+                if(count>1){
+                    if(count<=9){
+                        chars[index]=count+'0';
+                        index++;
+                    }
+                    else{
+                        int start=index;
+                        while(count!=0){
+                            chars[index]=(count%10)+'0';
+                            index++;
+                            count=count/10;
+                        }
+                        reverse(chars.begin()+start,chars.begin()+index);
+                    }
+                }
+                count=1;
+            }
+            i++;
+            prev++;
+        }
+        chars[index]=chars[prev];
+        index++;
+        if(count>1){
+            if(count<=9){
+                chars[index]=count+'0';
+                index++;
+            }
+            else{
+                int start=index;
+                while(count!=0){
+                    chars[index]=(count%10)+'0';
+                    index++;
+                    count=count/10;
+                }
+                reverse(chars.begin()+start,chars.begin()+index);
+            }
+        }
+        return index;
+    }
