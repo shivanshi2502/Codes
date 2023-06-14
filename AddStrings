@@ -1,0 +1,40 @@
+// Add Strings 
+// Given two non-negative integers, num1 and num2 represented as string, return the sum of num1 and num2 as a string 
+
+void solve(string& num1, int i,string& num2, int j, int& carry, string& ans){
+        //base case
+        if(i<0 && j<0){
+            if(carry!=0){
+                ans.push_back(carry+'0');
+            }
+            return;
+        }
+        //ek case
+        int digit1,digit2;
+        if(i<0){
+            digit1=0;
+        }
+        else{
+            digit1= num1[i]-'0';
+        }
+        if(j<0){
+            digit2=0;
+        }
+        else{
+            digit2= num2[j]-'0';
+        }
+        int sum=digit1+digit2+carry;
+        char a=(sum%10)+'0';
+        ans.push_back(a);
+        carry=sum/10;
+        return solve(num1,i-1,num2,j-1,carry,ans);
+    }
+    string addStrings(string num1, string num2) {
+        string ans="";
+        int i=num1.length()-1;
+        int j=num2.length()-1;
+        int carry=0;
+        solve(num1,i,num2,j,carry,ans);
+        reverse(ans.begin(),ans.end());
+        return ans;
+    }
