@@ -1,0 +1,46 @@
+//last occurenece of a char in a string using recursion 
+
+METHOD-1 (left to right search)
+#include <iostream>
+using namespace std;
+int lastOcc(string st, char target, int index,int& ans){
+    if(index>=st.length()){
+        return ans;
+    }
+    if(st[index]==target){
+        ans=index;
+    }
+    return lastOcc(st,target,index+1,ans);
+}
+
+int main()
+{
+    string st="abcddefgd";
+    char target='d';
+    int index=0;
+    int ans=-1;
+    cout<<"last occ of target is: "<<lastOcc(st,target,index,ans);
+}
+
+METHOD-2 (right to left search)
+#include <iostream>
+using namespace std;
+int lastOcc(string st, char target, int index,int& ans){
+    if(index<0){
+        return ans;
+    }
+    if(st[index]==target){
+        ans=index;
+        return ans;
+    }
+    return lastOcc(st,target,index-1,ans);
+}
+
+int main()
+{
+    string st="abcddedfg";
+    char target='d';
+    int index=st.length()-1;
+    int ans=-1;
+    cout<<"last occ of target is: "<<lastOcc(st,target,index,ans);
+}
