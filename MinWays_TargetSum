@@ -1,0 +1,30 @@
+// minimum no of ways in which target sum can be formed using only the elements of the given array. Given that there is unlimited supply of these elements
+
+#include<limits.h>
+#include<iostream>
+#include<vector>
+using namespace std;
+int solve(vector<int>&v,int targetSum){
+    if(targetSum==0){
+        return 0;
+    }
+    if(targetSum<0){
+        return INT_MAX;
+    }
+    int mini=INT_MAX;
+    for(int i=0;i<v.size();i++){
+        int ans=solve(v,targetSum-v[i]);
+        if(ans!=INT_MAX){
+            mini=min(ans+1,mini);
+        }
+    }
+    return mini;
+}
+
+int main()
+{
+    vector<int>v{1,2,3};
+    int targetSum=8;
+    cout<<"minimum no of ways is: "<<solve(v,targetSum);
+    return 0;
+}
