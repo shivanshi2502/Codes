@@ -1,0 +1,20 @@
+//maximum sum of non-adjacent elements
+
+int solve(vector<int>&v,int index,int sum){
+    //base-case
+    if(index>=v.size()){
+        return sum;
+    }
+    //include
+    int a=solve(v,index+2,sum+v[index]);
+    //exclude
+    int b=solve(v,index+1,sum);
+    return max(a,b);
+}
+
+int main(){
+    vector<int>v{2,1,4,9};
+    int sum=0;
+    int index=0;
+    cout<<"maximum sum is: "<<solve(v,index,sum);
+}
