@@ -1,0 +1,33 @@
+   string convert(string s, int numRows) {     
+        string ans="";
+        if(numRows==1 || s.length()<numRows){
+            return s;
+        }
+        vector<string> st(numRows);
+        int index=0;
+        int row=0;
+        bool direction=1; //go from top to bottom
+        while(index<s.length()){
+            if(direction){
+                while(row<numRows && index<s.length()){
+                    st[row].push_back(s[index]);
+                    row++;
+                    index++;
+                }
+            }
+            else{
+                row=numRows-2;
+                while(row>=0 && index<s.length()){
+                    st[row].push_back(s[index]);
+                    row--;
+                    index++;
+                }
+            }
+            row=1;
+            direction=!direction;
+        }
+        for(int i=0;i<st.size();i++){
+            ans=ans+st[i];
+        }
+        return ans;
+    }
