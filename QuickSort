@@ -1,0 +1,58 @@
+#include <iostream>
+using namespace std;
+int Partition(int* arr,int n,int s,int e){
+    //choose pivot
+    int PivotIndex=s;
+    int PivotElement=arr[s];
+    //count numbers equal to and smaller than pivot
+    int count=0;
+    for(int i=s+1;i<=e;i++){
+        if(arr[i]<=PivotElement){
+            count++;
+        }
+    }
+    //place pivot at its right position
+    int rightIndex=s+count;
+    swap(arr[PivotIndex],arr[rightIndex]);
+    PivotIndex=rightIndex;
+    //numbers smaller than and equal to pivot should be at left and greater at right
+    int i=s;
+    int j=e;
+    while(i<PivotIndex && j>PivotIndex){
+        if(arr[i]<=PivotElement){ 
+            i++;
+        }
+        if(arr[j]>PivotElement){
+            j++;
+        }
+        if(arr[i]>PivotElement && arr[j]<PivotElement){
+            swap(arr[i],arr[j]);
+        }
+    }
+    return PivotIndex;
+}
+void quickSort(int* arr,int n,int s,int e){
+    if(s>=e){
+        return;
+    }
+    //first step: Partition logic
+    //partition func will do this and return final pivot index
+    int p=Partition(arr,n,s,e);
+    //second step: recursive call for left and right part
+    quickSort(arr,n,s,p-1);//left part
+    //(p-1) as at p index pivot is placed which is at its correct position
+    quickSort(arr,n,p+1,e);//right part
+    return;
+}
+int main() {
+    int arr[]={8,3,8,1,20,50,30};
+    int n=7;
+    int s=0;
+    int e=n-1;
+    quickSort(arr,n,s,e);
+    cout<<"Printing array after sorting: "<<endl;
+    for(int i=0;i<n;i++){
+        cout<<arr[i]<<" ";
+    }
+    return 0;
+}
