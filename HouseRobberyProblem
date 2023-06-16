@@ -1,0 +1,15 @@
+int solve(vector<int>& nums,int index,int sum){
+        if(index>=nums.size()){
+            return sum;
+        }
+        //exclude
+        int a=solve(nums,index+1,sum);
+        //include
+        int b=solve(nums,index+2,sum+nums[index]);
+        return max(a,b);
+    }
+    int rob(vector<int>& nums) {
+        int index=0;
+        int sum=0;
+        return solve(nums,index,sum);
+    }
