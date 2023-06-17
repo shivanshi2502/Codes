@@ -1,0 +1,72 @@
+// Rat in Maze
+
+#include <iostream>
+#include<bits/stdc++.h>
+#include<string>
+using namespace std;
+
+bool isSafe(int x,int y,int arr[4][4],int row,int col,vector<vector<bool> >& visited){
+    if(((x>=0 && x<row)&&(y>=0&&y<col))&&(arr[x][y]==1)&&(visited[x][y]==false)){
+        return true;
+    }
+    return false;
+}
+
+void solveMaze(int arr[4][4],int row,int col,int i,int j,vector<vector<bool> >& visited,string output,vector<string>& answers){
+    if(i==row-1 && j==col-1){
+        answers.push_back(output);
+        return;
+    }
+    //down
+    if(isSafe(i+1,j,arr,row,col,visited)){
+        visited[i+1][j]=true;
+        solveMaze(arr,row,col,i+1,j,visited,output+"D",answers);
+        //backtracking
+        visited[i+1][j]=false;
+    }
+    //left
+    if(isSafe(i,j-1,arr,row,col,visited)){
+        visited[i][j-1]=true;
+        solveMaze(arr,row,col,i,j-1,visited,output+"L",answers);
+        //backtracking
+        visited[i][j-1]=false;
+    }
+    //right
+    if(isSafe(i,j+1,arr,row,col,visited)){
+        visited[i][j+1]=true;
+        solveMaze(arr,row,col,i,j+1,visited,output+"R",answers);
+        //backtracking
+        visited[i][j+1]=false;
+    }
+    //up
+    if(isSafe(i-1,j,arr,row,col,visited)){
+        visited[i-1][j]=true;
+        solveMaze(arr,row,col,i-1,j,visited,output+"U",answers);
+        //backtracking
+        visited[i-1][j]=false;
+    }
+}
+
+int main() {
+    int arr[4][4]={{1,0,0,0},
+                   {1,1,0,0},
+                   {1,1,1,0},
+                   {0,1,1,1}};
+    int row=4;
+    int col=4;               
+    if(arr[0][0]==0){
+        cout<<"Solution doesnot exists"<<endl;
+    }               
+    vector<vector<bool> > visited(row,vector<bool>(col,false));
+    visited[0][0]=true;
+    string output="";
+    vector<string> answers;
+    solveMaze(arr,row,col,0,0,visited,output,answers);
+    if(answers.size()==0){
+        cout<<"Solution doesnot exists"<<endl;
+    }
+    for(auto it:answers){
+        cout<<it<<endl;
+    }
+    return 0;
+}
