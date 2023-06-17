@@ -1,0 +1,26 @@
+// letter combinations of phone numbers
+void solve(string& digits,int i,int n,vector<string>& answers,string output,vector<string>&m){
+        if(i>=n){
+            answers.push_back(output);
+            return;
+        }
+        string st=m[digits[i]-'0'];
+        int j=st.length();
+        for(int k=0;k<j;k++){
+            output.push_back(st[k]);
+            solve(digits,i+1,n,answers,output,m);
+            output.pop_back();
+        }
+    }
+    vector<string> letterCombinations(string digits) {
+        vector<string> answers;
+        vector<string>m={"","","abc","def","ghi","jkl","mno","pqrs","tuv","wxyz"};
+        if(digits.length()==0){
+            return answers;
+        }
+        int i=0;
+        int n=digits.length();
+        string output="";
+        solve(digits,i,n,answers,output,m);
+        return answers;
+    }
