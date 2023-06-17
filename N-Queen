@@ -1,0 +1,140 @@
+// N-queen problem 
+METHOD-1 (without using maps...not optimised soln)
+
+#include <iostream>
+#include<bits/stdc++.h>
+using namespace std;
+void printSol(vector< vector<char> >& board,int n){
+    for(int i=0;i<n;i++){
+        for(int j=0;j<n;j++){
+            cout<<board[i][j]<<" ";
+        }
+        cout<<endl;
+    }
+    return;
+}
+bool isSafe(vector< vector<char> >& board,int n,int row,int col){
+    //left row
+    int i=row;
+    int j=col;
+    while(j>=0){
+        if(board[i][j]=='-'){
+            j--;
+        }
+        else{
+            return false;
+        }
+    }
+    //upper left diagonal
+    i=row;
+    j=col;
+    while(i>=0 && j>=0){
+        if(board[i][j]=='-'){
+            i--;
+            j--;
+        }
+        else{
+            return false;
+        }
+    }
+    //bottom left diagonal
+    i=row;
+    j=col;
+    while(i<n && j>=0){
+        if(board[i][j]=='-'){
+            i++;
+            j--;
+        }
+        else{
+            return false;
+        }
+    }
+    return true;
+}
+void nqueen(vector< vector<char> >& board,int n,int col){
+    if(col>=n){
+        printSol(board,n);
+        cout<<endl;
+        cout<<endl;
+        cout<<endl;
+        return;
+    }
+    for(int row=0;row<n;row++){
+        if(isSafe(board,n,row,col)){
+            board[row][col]='Q';
+            nqueen(board,n,col+1);
+            board[row][col]='-';
+        }
+    }
+    return;
+}
+int main() {
+    int n=5;
+    vector< vector<char> > board(n,vector<char>(n,'-'));
+    nqueen(board,n,0);
+    return 0;
+}
+
+
+METHOD-2 (using maps...optimised solution)
+//only difference is in isSafe() and during backtracking in nqueen()
+
+#include <iostream>
+#include<bits/stdc++.h>
+using namespace std;
+
+unordered_map<int,bool>leftRow;
+unordered_map<int,bool>upperLeftDiag;
+unordered_map<int,bool>BottomLeftDiag;
+
+
+void printSol(vector< vector<char> >& board,int n){
+    for(int i=0;i<n;i++){
+        for(int j=0;j<n;j++){
+            cout<<board[i][j]<<" ";
+        }
+        cout<<endl;
+    }
+    return;
+}
+bool isSafe(vector< vector<char> >& board,int n,int row,int col){
+    if(leftRow[row]==true){
+        return false;
+    }
+    if(upperLeftDiag[col-row]==true){
+        return false;
+    }
+    if(BottomLeftDiag[row+col]==true){
+        return false;
+    }
+    return true;
+}
+void nqueen(vector< vector<char> >& board,int n,int col){
+    if(col>=n){
+        printSol(board,n);
+        cout<<endl;
+        cout<<endl;
+        cout<<endl;
+        return;
+    }
+    for(int row=0;row<n;row++){
+        if(isSafe(board,n,row,col)){
+            board[row][col]='Q';
+            leftRow[row]=true;
+            upperLeftDiag[col-row]=true;
+            BottomLeftDiag[row+col]=true;
+            nqueen(board,n,col+1);
+            board[row][col]='-';
+            leftRow[row]=false;
+            upperLeftDiag[col-row]=false;
+            BottomLeftDiag[row+col]=false;
+        }
+    }
+    return;
+}
+int main() {
+    int n=4;
+    vector< vector<char> > board(n,vector<char>(n,'-'));
+    nqueen(board,n,0);
+    return 0;
+}
