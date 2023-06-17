@@ -5,12 +5,12 @@ void solve(vector<string>& ans,string output,int n,int open,int close){
             ans.push_back(output);
             return;
         }
-        //include opening bracket
+        //include opening bracket if we have remaining opening brackets left i.e. > 0
         if(open>0){
             solve(ans,output+'(',n,open-1,close);
         }
-        //include closing bracket
-        if(close>open){
+        //include closing bracket if remaining closing brackets > remaining opening brackets
+        if(close>open){ 
             solve(ans,output+')',n,open,close-1);
         }
         return;
@@ -18,8 +18,8 @@ void solve(vector<string>& ans,string output,int n,int open,int close){
     vector<string> generateParenthesis(int n) {
         vector<string> ans;
         string output="";
-        int open=n;
-        int close=n;
+        int open=n; // number of remaining opening brackets
+        int close=n; // number of remaining closing brackets
         solve(ans,output,n,open,close);
         return ans;
     }
