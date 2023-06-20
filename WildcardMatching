@@ -1,0 +1,36 @@
+bool solve(string& s,int si,string& p,int pi){
+        if(si==s.size()&&pi==p.size()){
+            //both string match completely
+            return true;
+        }
+        if(si>=s.size() && pi<p.size()){
+            while(pi<p.size()){
+                if(p[pi]!='*'){
+                    return false;
+                }
+                pi++;
+            }
+            return true;
+        }
+
+        if(s[si]==p[pi]||p[pi]=='?'){
+            //the current char matches
+            //call recursion to check further
+            return solve(s,si+1,p,pi+1);
+        }
+        if(p[pi]=='*'){
+            //case 1 when * consumes nothing
+            bool case1Ans=solve(s,si,p,pi+1);
+            //case 2 when * consumes 1 char
+            bool case2Ans=solve(s,si+1,p,pi);
+            if(case1Ans==true ||case2Ans==true){
+                return true;
+            }
+        }
+        return false;
+    }
+    bool isMatch(string s, string p) {
+        int si=0; //points at start of s string
+        int pi=0; //points at start of p string
+        return solve(s,si,p,pi);
+    }
