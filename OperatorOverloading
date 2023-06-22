@@ -1,0 +1,20 @@
+#include <iostream>
+using namespace std;
+class Maths{
+    public:
+    int val;
+    
+    int operator + (Maths m){
+        return this->val-m.val;
+    }
+};
+
+int main()
+{
+    Maths obj1;
+    Maths obj2;
+    obj1.val=17;
+    obj2.val=12;
+    //this should print difference bw the two
+    cout<<obj1+obj2;
+}
