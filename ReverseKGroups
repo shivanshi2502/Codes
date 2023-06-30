@@ -1,0 +1,30 @@
+ListNode* reverse(ListNode* head,int k){
+        if(head->next==NULL){
+            return head;
+        }
+        if(head==NULL){
+            return NULL;
+        }
+        int i=0;
+        ListNode* prev=NULL;
+        ListNode* curr=head;
+        ListNode* forward=NULL;
+        while(i<k && curr!=NULL){
+            i++;
+            if(curr->next!=NULL){
+                forward=curr->next;
+                curr->next=prev;
+                prev=curr;
+                curr=forward;
+            }
+        }
+        ListNode* recursionKaAns=reverse(curr,k);
+        head->next=recursionKaAns;
+        return prev;
+    }
+    ListNode* reverseKGroup(ListNode* head, int k) {
+        if(head==NULL){
+            return head;
+        }
+        return reverse(head,k);
+    }
