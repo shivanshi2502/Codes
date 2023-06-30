@@ -1,0 +1,30 @@
+// recursive soln
+
+    ListNode* reverse(ListNode* prev,ListNode* curr){
+        if(curr==NULL){
+            return prev;
+        }
+        ListNode* forward=curr->next;
+        curr->next=prev;
+        return reverse(curr,forward);
+    }
+    ListNode* reverseList(ListNode* head) {
+        ListNode* prev=NULL;
+        ListNode* curr=head;
+        return reverse(prev,curr);
+    }
+
+
+
+    // iterative soln
+    ListNode* reverseList(ListNode* head) {
+        ListNode* prev=NULL;
+        ListNode* curr=head;                                         
+        while(curr!=NULL){
+            ListNode* forward=curr->next;
+            curr->next=prev;
+            prev=curr;
+            curr=forward;
+        }
+        return prev;
+    }
