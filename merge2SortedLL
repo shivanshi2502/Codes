@@ -1,0 +1,31 @@
+ ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {
+        if(list1==NULL){
+            return list2;
+        }
+        if(list2==NULL){
+            return list1;
+        }
+        ListNode* ans=new ListNode(-1);
+        ListNode* temp=ans;
+        ListNode* left=list1;
+        ListNode* right=list2;
+        while(left!=NULL && right!=NULL){
+            if(left->val <= right->val){
+                temp->next=left;
+                temp=left;
+                left=left->next;
+            }
+            else{
+                temp->next=right;
+                temp=right;
+                right=right->next;
+            }
+        }
+        if(left!=NULL){
+            temp->next=left;
+        }
+        if(right!=NULL){
+            temp->next=right;
+        }
+        return ans->next;
+    }
