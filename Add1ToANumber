@@ -1,0 +1,50 @@
+class Solution
+{
+    public:
+    
+    Node* reverse(Node*prev,Node*curr){
+    while(curr!=NULL){
+        Node* forward=curr->next;
+        curr->next=prev;
+        prev=curr;
+        curr=forward;
+    }
+    return prev;
+}
+
+
+    Node* addOne(Node *head) 
+    {
+        // Your Code here
+        // return head of list after adding one
+        Node*prev=NULL;
+        Node*curr=head;
+        Node*newHead=reverse(prev,curr);
+        Node*temp=newHead;
+        Node*tail=newHead;
+        int carry=0;
+        int sum=carry+temp->data+1;
+        int digit=sum%10;
+        carry=sum/10;
+        while(temp!=NULL){
+        temp->data=digit;
+        temp=temp->next;
+        if(temp!=NULL){
+            sum=carry+temp->data;
+            digit=sum%10;
+            carry=sum/10;
+        }
+        if(tail->next!=NULL){
+            tail=tail->next;
+        }
+    }
+    if(carry!=0){
+        Node* newNode= new Node(carry);
+        tail->next=newNode;
+        tail=newNode;
+    }
+      Node* result=reverse(NULL,newHead);
+      return result;
+    }
+    
+};
