@@ -1,0 +1,34 @@
+// return true if redundant brackets are present else if not present then return false
+
+bool findRedundantBrackets(string &s)
+{
+    stack<char>st;
+    bool operatorPresent=false;
+    for(int i=0;i<s.length();i++){
+        char ch=s[i];
+        if(ch=='('||ch=='+'||ch=='-'||ch=='/'||ch=='*'){
+            st.push(ch);
+        }
+        else if(ch==')'){
+            char temp=st.top();
+            while(temp!='('){
+                if(temp=='+'||temp=='-'||temp=='/'||temp=='*'){
+                    operatorPresent=true;
+                    st.pop();
+                    temp=st.top();
+                }
+                if(st.empty()){
+                    return true;
+                }
+            }
+            if(operatorPresent){
+                st.pop();
+                operatorPresent=false;
+            }
+            else{
+                return true;
+            }
+        }
+    }
+    return false;
+}
