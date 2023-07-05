@@ -1,0 +1,29 @@
+#include <iostream>
+#include<stack>
+#include<string>
+using namespace std;
+
+int findMiddle(stack<int>&st, int&totalSize){
+    if(st.size()==(totalSize/2)+1){
+        return st.top();
+    }
+    int temp=st.top();
+    st.pop();
+    int ans=findMiddle(st,totalSize);
+    st.push(temp);
+    return ans;
+}
+
+int main() {
+    stack<int>st;
+    st.push(10);
+    st.push(20);
+    st.push(30);
+    st.push(40);
+    st.push(50);
+    st.push(60);
+    st.push(70);
+    
+    int totalSize=st.size();
+    cout<<"Middle element is: "<<findMiddle(st,totalSize);
+}
