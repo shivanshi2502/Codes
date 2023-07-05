@@ -1,0 +1,73 @@
+#include <iostream>
+using namespace std;
+
+class stack{
+    public:
+    int top;
+    int* arr;
+    int size;
+
+    stack(int num){
+        top=-1;
+        arr=new int[num];
+        size=num;
+    }
+
+    void push(int data){
+        //space is available or not
+        if(top==size-1){
+            cout<<"stack overflow, space not available"<<endl;
+        }
+        else{
+            top++;
+            arr[top]=data;
+        }
+    }
+
+    void pop(){
+        if(top==-1){
+            cout<<"stack underflow, no element in stack to remove"<<endl;
+        }
+        else{
+            top--;
+        }
+    }
+
+    int getTop(){
+        if(top==-1){
+            cout<<"no element in stack"<<endl;
+        }
+        else{
+            return arr[top];
+        }
+    }
+
+    int getSize(){
+        return top+1;
+    }
+
+    bool isEmpty(){
+        if(top==-1){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+};
+
+int main() {
+    stack st(10);
+    st.push(10);
+    st.push(20);
+    st.push(30);
+    st.push(40);
+    st.push(50);
+    cout<<"Size before popping: "<<st.getSize()<<endl;
+    while(st.isEmpty()==false){
+        cout<<st.getTop()<<" ";
+        st.pop();
+    }
+    cout<<endl;
+    cout<<"Size after popping: "<<st.getSize()<<endl;
+}
