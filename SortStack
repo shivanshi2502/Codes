@@ -1,0 +1,60 @@
+#include <iostream>
+#include<stack>
+using namespace std;
+
+void insertElem(stack<int>&st,int& elem){
+        if(st.empty()){
+            st.push(elem);
+            return;
+        }
+        int temp=st.top();
+        if(temp<elem){
+            st.pop();
+            insertElem(st,elem);
+            st.push(temp);
+        }
+        else{
+            st.push(elem);
+            return;
+        }
+    }
+
+    void sort(stack<int>&st){
+        if(st.empty()){
+            return;
+        }
+        int elem=st.top();
+        st.pop();
+        sort(st);
+        insertElem(st,elem);
+        return;
+    }
+
+    int main() {
+        stack<int>st;
+        st.push(41);
+        st.push(73);
+        st.push(30);
+        st.push(23);
+        st.push(68);
+        st.push(46);
+        cout<<"before: "<<endl;
+        while(!st.empty()){
+            cout<<st.top()<<" ";
+            st.pop();
+        }
+        cout<<endl;
+        st.push(41);
+        st.push(73);
+        st.push(30);
+        st.push(23);
+        st.push(68);
+        st.push(46);
+        sort(st);
+        cout<<"After: "<<endl;
+        while(!st.empty()){
+            cout<<st.top()<<" ";
+            st.pop();
+        }
+        cout<<endl;
+    }
