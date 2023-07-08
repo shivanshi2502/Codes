@@ -1,0 +1,32 @@
+int length(ListNode*head){
+        ListNode*temp=head;
+        int count=0;
+        while(temp!=NULL){
+            temp=temp->next;
+            count++;
+        }
+        return count;
+    }
+    ListNode* rotateRight(ListNode* head, int k) {
+        if(head==NULL||head->next==NULL||k==0){
+            return head;
+        }
+        int len=length(head);
+        if(k%len==0){
+            return head;
+        }
+        int num=1;
+        ListNode*prev=head;
+        while(num<len-(k%len)){
+            prev=prev->next;
+            num++;
+        }
+        ListNode*forward=prev->next;
+        prev->next=NULL;
+        ListNode*newhead=forward;
+        while(forward->next!=NULL){
+            forward=forward->next;
+        }
+        forward->next=head;
+        return newhead;
+    }
