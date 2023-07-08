@@ -1,0 +1,70 @@
+void RightExtend(vector<int>& heights,vector<int>&nextSmaller){
+        stack<int>s;
+        s.push(-1);
+        for(int i=heights.size()-1;i>=0;i--){
+            if(s.top()==-1){
+                nextSmaller[i]=-1;
+                s.push(i);
+            }
+            else if(heights[i]>heights[s.top()]&&s.top()!=-1){
+                nextSmaller[i]=s.top();
+                s.push(i);
+            }
+            else{
+                while(heights[i]<=heights[s.top()]){
+                    s.pop();
+                    if(s.top()==-1){
+                        break;
+                    }
+                }
+                nextSmaller[i]=s.top();
+                s.push(i);
+            }
+        }
+        for(int i=0;i<nextSmaller.size();i++){
+            if(nextSmaller[i]==-1){
+                nextSmaller[i]=heights.size();
+            }
+        }
+        return;
+    }
+    void LeftExtend(vector<int>& heights,vector<int>&prevSmaller){
+        stack<int>s;
+        s.push(-1);
+        for(int i=0; i<heights.size();i++){
+            if(s.top()==-1){
+                prevSmaller[i]=-1;
+                s.push(i);
+            }
+            else if(heights[i]>heights[s.top()]&&s.top()!=-1){
+                prevSmaller[i]=s.top();
+                s.push(i);
+            }
+            else{
+                while(heights[i]<=heights[s.top()]){
+                    s.pop();
+                    if(s.top()==-1){
+                        break;
+                    }
+                }
+                prevSmaller[i]=s.top();
+                s.push(i);
+            }
+        }
+        return;
+    }
+    int largestRectangleArea(vector<int>& heights) {
+        int n=heights.size();
+        vector<int>nextSmaller(n,0);
+        vector<int>prevSmaller(n,0);
+        RightExtend(heights,nextSmaller);
+        LeftExtend(heights,prevSmaller);
+        int MaxArea=INT_MIN;
+        for(int i=0;i<heights.size();i++){
+            int height=heights[i];
+            int width=nextSmaller[i]-prevSmaller[i]-1;
+            int area=height*width;
+            MaxArea=max(MaxArea,area);
+        }
+        return MaxArea;
+    }
