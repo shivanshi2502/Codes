@@ -1,0 +1,45 @@
+//first negative integer in every window of size k
+
+#include <iostream>
+#include<queue>
+#include<array>
+using namespace std;
+void firstNegativeInteger(int* arr,int size,int k){
+    queue<int>index;
+    //processing first k elements
+    for(int i=0;i<k;i++){
+        if(arr[i]<0){
+            index.push(i);
+        }
+    }
+    for(int i=k;i<size;i++){
+        //printing result of prev window
+        if(index.empty()){
+            cout<<"0 ";
+        }
+        else{
+            cout<<arr[index.front()]<<" ";
+        }
+        //removal
+        if((!index.empty())&&(index.front()==i-k)){
+            index.pop();
+        }
+        //processing elem for current i
+        if(arr[i]<0){
+            index.push(i);
+        }
+    }
+    //printing result for last window
+    if(index.empty()){
+        cout<<"0"<<" ";
+    }
+    else{
+        cout<<index.front()<<" ";
+    }
+}
+int main() {
+    int arr[]={12,-1,-7,8,-15,30,16,28};
+    int k=3;
+    int size=8;
+    firstNegativeInteger(arr,size,k);
+}
