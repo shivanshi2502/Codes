@@ -1,0 +1,27 @@
+#include <iostream>
+#include<queue>
+using namespace std;
+void reverse(queue<int>&q){
+    if(q.size()==1){
+        return;
+    }
+    int temp=q.front();
+    q.pop();
+    reverse(q);
+    q.push(temp);
+    return;
+}
+int main() {
+    queue<int>q;
+    q.push(3);
+    q.push(6);
+    q.push(9);
+    q.push(2);
+    q.push(8);
+    reverse(q);
+    while(!q.empty()){
+        int it=q.front();
+        cout<<it<<" ";
+        q.pop();
+    }
+}
