@@ -1,0 +1,55 @@
+#include <iostream>
+#include<queue>
+#include<stack>
+using namespace std;
+void interleave(queue<int>&q){
+    queue<int>q2;
+    int n=q.size();
+    int count;
+    if(n%2==0){
+        count=0;
+    }
+    else{
+        count=-1;
+    }
+    while(count<n/2){
+        int temp=q.front();
+        q.pop();
+        q2.push(temp);
+        count++;
+    }
+    queue<int>q3;
+    while(!q.empty()){
+        int temp=q.front();
+        q.pop();
+        q3.push(temp);
+    }
+    while(q2.empty()==false && q3.empty()==false){
+        int temp=q2.front();
+        q2.pop();
+        q.push(temp);
+        temp=q3.front();
+        q3.pop();
+        q.push(temp);
+    }
+    while(!q2.empty()){
+        int temp=q2.front();
+        q2.pop();
+        q.push(temp);
+    }
+}
+int main() {
+    queue<int>q;
+    q.push(3);
+    q.push(6);
+    q.push(9);
+    q.push(12);
+    q.push(15);
+    q.push(50);
+    interleave(q);
+    while(!q.empty()){
+        int it=q.front();
+        cout<<it<<" ";
+        q.pop();
+    }
+}
