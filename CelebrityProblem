@@ -1,0 +1,36 @@
+int celebrity(vector<vector<int> >& M, int n) 
+    {
+        //push all elements in stack
+        stack<int>st;
+        for(int i=0;i<n;i++){
+            st.push(i);
+        }
+        
+        //extract top 2 elements and check they are celebrity or not
+        while(st.size()!=1){
+            int a=st.top();st.pop();
+            int b=st.top();st.pop();
+            if(M[a][b]){
+                // a knows b
+                //a is not a celebrity->discard a
+                st.push(b);
+            }
+            else{
+                st.push(a);
+            }
+        }
+        int ans=-1;
+        if(st.empty()){
+            return -1;
+        }
+        ans=st.top();
+        for(int i=0;i<n;i++){
+            if(M[ans][i]==1){
+                return -1;
+            }
+            if(M[i][ans]==0 && i!=ans){
+                return -1;
+            }
+        }
+        return ans;
+    }
