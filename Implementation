@@ -1,4 +1,5 @@
 #include <iostream>
+#include<queue>
 using namespace std;
 
 class Node{
@@ -30,8 +31,112 @@ Node* buildTreeRec(){
     }
 }
 
+void LevelOrderTraversal1(Node* root){
+    queue<Node*>q;
+    q.push(root);
+    while(!q.empty()){
+        Node*temp=q.front();
+        q.pop();
+        cout<<temp->data<<" ";
+        if(temp->left){
+            q.push(temp->left);
+        }
+        if(temp->right){
+            q.push(temp->right);
+        }
+    }
+}
+
+void LevelOrderTraversal2(Node* root){
+    queue<Node*>q;
+    q.push(root);
+    q.push(NULL);
+    while(!q.empty()){
+        Node*temp=q.front();
+        q.pop();
+        if(temp!=NULL){
+            cout<<temp->data<<" ";
+            if(temp->left){
+            q.push(temp->left);
+            }
+            if(temp->right){
+            q.push(temp->right);
+            }
+        }
+        else{
+            cout<<endl;
+            if(!q.empty()){
+                q.push(NULL);
+            }
+        }
+    }
+}
+
+void Inorder(Node*root){
+    if(root==NULL){
+        return;
+    }
+    Inorder(root->left);
+    cout<<root->data<<" ";
+    Inorder(root->right);
+}
+
+void preOrder(Node*root){
+    if(root==NULL){
+        return;
+    }
+    cout<<root->data<<" ";
+    Inorder(root->left);
+    Inorder(root->right);
+}
+
+void postOrder(Node* root){
+    if(root==NULL){
+        return;
+    }
+    Inorder(root->left);
+    Inorder(root->right);
+    cout<<root->data<<" ";
+}
+
+int height(Node*root){
+    if(root==NULL){
+        return 0;
+    }
+    int left=height(root->left);
+    int right=height(root->right);
+    return left+right+1;
+}
+
+int diameter(Node*root){
+    if(root==NULL){
+        return 0;
+    }
+    int left=diameter(root->left);
+    int right=diameter(root->right);
+    int ans=height(root->left)+height(root->right);
+    return max(left,max(right,ans));
+}
+
 int main() {
     Node*root=NULL;
     root=buildTreeRec();
+    cout<<"Printing level-order traversal: "<<endl;
+    LevelOrderTraversal1(root);
+    cout<<endl;
+    cout<<"Printing level-order traversal: "<<endl;
+    LevelOrderTraversal2(root);
+    cout<<endl;
+    cout<<"Printing inorder traversal: "<<endl;
+    Inorder(root);
+    cout<<endl;
+    cout<<"Printing preorder traversal: "<<endl;
+    preOrder(root);
+    cout<<endl;
+    cout<<"Printing postorder traversal: "<<endl;
+    postOrder(root);
+    cout<<endl;
+    cout<<"heigth of tree is: "<<height(root)<<endl;
+    cout<<"Diameter of tree is: "<<diameter(root)<<endl;
     return 0;
 }
