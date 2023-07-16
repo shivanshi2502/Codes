@@ -1,0 +1,32 @@
+class Solution {
+    class car{
+        public:
+        int position;
+        int speed;
+        car(int pos,int speed){
+            this->position=pos;
+            this->speed=speed;
+        }
+    };
+public:
+    static bool myComp(car&a,car&b){
+        return a.position < b.position;
+    }
+    int carFleet(int target, vector<int>& position, vector<int>& speed) {
+        vector<car> v;
+        for(int i=0;i<position.size();i++){
+            car c(position[i],speed[i]);
+            v.push_back(c);
+        }
+        sort(v.begin(),v.end(),myComp);
+        stack<float>st;
+        for(auto i:v){
+            float time=(target-(i.position))/(float)(i.speed);
+            while(!st.empty()&& time>=st.top()){
+                st.pop();
+            }
+            st.push(time);
+        }
+        return st.size();
+    }
+};
