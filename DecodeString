@@ -1,0 +1,37 @@
+string decodeString(string s) {
+        stack<string>st;
+        for(auto ch:s){
+            if(ch==']'){
+                string repeat="";
+                while(!st.empty()&&st.top()!="["){
+                    string top=st.top();
+                    repeat=repeat+top;
+                    st.pop();
+                }
+                st.pop();
+                string numeric="";
+                while(!st.empty() && isdigit(st.top()[0])){
+                    numeric=numeric+st.top();
+                    st.pop();
+                }
+                reverse(numeric.begin(),numeric.end());
+                int n=stoi(numeric);
+                string current="";
+                while(n--){
+                    current=current+repeat;
+                }
+                st.push(current);
+            }
+            else{
+                string temp(1,ch);
+                st.push(temp);
+            }
+        }
+        string ans;
+        while(!st.empty()){
+            ans=ans+st.top();
+            st.pop();
+        }
+        reverse(ans.begin(),ans.end());
+        return ans;
+    }
