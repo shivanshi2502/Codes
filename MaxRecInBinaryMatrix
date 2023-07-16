@@ -1,0 +1,72 @@
+void leftExtent(vector<int>&heights,int left[]){
+        stack<int>s;
+        s.push(-1);
+        for(int i=0;i<heights.size();i++){
+            int temp=heights[i];
+            if(s.top()==-1){
+                left[i]=-1;
+                s.push(i);
+            }
+            else{
+                while(!s.empty() && s.size()!=1 && heights[s.top()]>=temp){
+                    s.pop();
+                }
+                left[i]=s.top();
+                s.push(i);
+            }
+        }
+    }
+    void RightExtent(vector<int>&heights,int right[]){
+        stack<int>s;
+        s.push(heights.size());
+        for(int i=heights.size()-1;i>=0;i--){
+            int temp=heights[i];
+            if(s.top()==heights.size()){
+                right[i]=heights.size();
+                s.push(i);
+            }
+            else{
+                while(!s.empty() && s.size()!=1 && heights[s.top()]>=temp){
+                    s.pop();
+                }
+                right[i]=s.top();
+                s.push(i);
+            }
+        }
+    }
+    int largestRecArea(vector<int>&heights){
+        int area=INT_MIN;
+        int left[heights.size()];
+        int right[heights.size()];
+        leftExtent(heights,left);
+        RightExtent(heights,right);
+        for(int i=0;i<heights.size();i++){
+            int height=heights[i];
+            int width=right[i]-left[i]-1;
+            area=max(area,height*width);
+        }
+        return area;
+    }
+    int maximalRectangle(vector<vector<char>>& matrix) {
+        vector<vector<int>>v;
+        for(int i=0;i<matrix.size();i++){
+            vector<int>t;
+            for(int j=0;j<matrix[0].size();j++){
+                t.push_back(matrix[i][j]-'0');
+            }
+            v.push_back(t);
+        }
+        int area= largestRecArea(v[0]);
+        for(int i=1;i<v.size();i++){
+            for(int j=0;j<v[0].size();j++){
+                if(v[i][j]){
+                    v[i][j]=v[i][j]+v[i-1][j];
+                }
+                else{
+                    v[i][j]=0;
+                }
+            }
+            area=max(area,largestRecArea(v[i]));
+        }
+        return area;
+    }
