@@ -1,0 +1,55 @@
+string simplifyPath(string path) {
+        if(path.length()==0){
+            return "";
+        }
+        if(path=="/../"){
+            return "/";
+        }
+        string ans="";
+        stack<string> s;
+        int j=1;
+        for(int i=0;i<path.length();i++){
+            while(path[j]!='/'&&j<path.length()){
+                j++;
+            }
+            string st=path.substr(i,j-i);
+            if(st=="/.."&&s.empty()){
+                i=j-1;
+                j++;
+                continue;
+            }
+            else if(st=="/.."&&!s.empty()){
+                s.pop();
+            }
+            else if(st=="/."||st=="/"){
+                i=j-1;
+                j++;
+                continue;
+            }
+            else{
+                s.push(st);
+            }
+            i=j-1;
+            if(j<path.length()){
+                j++;
+            }
+            else{
+                break;
+            }
+        }
+        if(s.empty()){
+            s.push("/");
+        }
+        stack<string>s2;
+        while(!s.empty()){
+            string temp=s.top();
+            s2.push(temp);
+            s.pop();
+        }
+        while(!s2.empty()){
+            string temp=s2.top();
+            ans=ans+temp;
+            s2.pop();
+        }
+        return ans;
+    }
