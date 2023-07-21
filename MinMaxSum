@@ -1,0 +1,104 @@
+//sum of min and max element of all subarrays of size k
+//ans is coming wrong but code is correct
+#include <iostream>
+#include<queue>
+#include<deque>
+using namespace std;
+int solve(vector<int>&v,int &k){
+    int ans=0;
+    deque<int>q1;
+    deque<int>q2;
+    //processing first k elements for min
+    for(int i=0;i<k;i++){
+        if(q1.empty()){
+            q1.push_back(i);
+        }
+        else{
+            if(v[q1.front()]<=v[i]){
+                q1.push_back(i);
+            }
+            else{
+                while(!q1.empty()&&v[q1.front()]>=v[i]){
+                    q1.pop_front();
+                }
+                q1.push_back(i);
+            }
+        }
+    }
+    ans=v[q1.front()];
+    cout<<"ans after k mins is"<<ans<<endl;
+    //processing first k elements for max
+    for(int i=0;i<k;i++){
+        if(q2.empty()){
+            q2.push_back(i);
+        }
+        else{
+            if(v[q2.front()]>=v[i]){
+                q2.push_back(i);
+            }
+            else{
+                while(!q2.empty()&&v[q2.front()]<=v[i]){
+                    q2.pop_front();
+                }
+                q2.push_back(i);
+            }
+        }
+    }
+    ans=ans+v[q2.front()];
+    cout<<"ans after k max is"<<ans<<endl;
+    //processing rest windows for min
+    for(int i=k;i<v.size();i++){
+        if(v.front()<=i-k){
+            //front is not in window
+            q1.pop_front();
+        }
+        //check for current element for minimum
+        if(q1.empty()){
+            q1.push_back(i);
+        }
+        else{
+            if(v[q1.front()]<=v[i]){
+                q1.push_back(i);
+            }
+            else{
+                while(!q1.empty()&&v[q1.front()]>=v[i]){
+                    q1.pop_front();
+                }
+                q1.push_back(i);
+            }
+        }
+        ans=ans+v[q1.front()];
+        cout<<"ans of min for i="<<i<<"is:"<<ans<<endl;
+    }
+    //processing rest windows for max
+    for(int i=k;i<v.size();i++){
+        if(v.front()<=i-k){
+            //front is not in window
+            q2.pop_front();
+        }
+        //check for current element for maximum
+        if(q2.empty()){
+            q2.push_back(i);
+        }
+        else{
+            if(v[q2.front()]>=v[i]){
+                q2.push_back(i);
+            }
+            else{
+                while(!q2.empty()&&v[q2.front()]<=v[i]){
+                    q2.pop_front();
+                }
+                q2.push_back(i);
+            }
+        }
+        ans=ans+v[q2.front()];
+        cout<<"ans of max for i="<<i<<"is:"<<ans<<endl;
+    }
+    return ans;
+}
+int main() {
+    vector<int>v{2,5,-1,7,-3,-1,-2};
+    int k=4;
+    cout<<solve(v,k);
+    return 0;
+}
