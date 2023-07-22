@@ -1,0 +1,31 @@
+int sum(Node*root){
+        if(root==NULL){
+            return 0;
+        }
+        return root->data;
+    }
+    bool isSumTree(Node* root)
+    {
+        if(root==NULL){
+            return true;
+        }
+        if(root->left==NULL && root->right==NULL){
+            return true;
+        }
+        bool left=isSumTree(root->left);
+        bool right=isSumTree(root->right);
+        if(left==true && right==true){
+            int leftSum=sum(root->left);
+            int RightSum=sum(root->right);
+            if(leftSum+RightSum==root->data){
+            root->data=leftSum+RightSum+root->data;
+            return true;
+            }
+            else{
+            return false;
+            }
+        }
+        else{
+            return false;
+        }
+    }
