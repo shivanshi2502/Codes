@@ -1,0 +1,23 @@
+bool solve(BinaryTreeNode<int> *root, int &targetNodeVal, int &k,int&ans){
+    if(root==NULL){
+        return false;
+    }
+    if(root->data==targetNodeVal){
+        return true;
+    }
+    bool left=solve(root->left,targetNodeVal,k,ans);
+    bool right=solve(root->right,targetNodeVal,k,ans);
+    if(left==true||right==true){
+        k--;
+        if(k==0){
+            ans=root->data;
+            k=-1;
+        }
+    }
+    return left||right;
+}
+int findKthAncestor(BinaryTreeNode<int> *root, int targetNodeVal, int k) {
+    int ans=-1;
+    bool found=solve(root,targetNodeVal,k,ans);
+    return ans;
+}
