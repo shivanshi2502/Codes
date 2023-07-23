@@ -1,0 +1,50 @@
+// write post order using in-order and pre-order
+
+#include <iostream>
+using namespace std;
+class Node{
+    public:
+    int data;
+    Node* left;
+    Node* right;
+    Node(int data){
+        this->data=data;
+        left=NULL;
+        right=NULL;
+    }
+};
+int findPos(int inorder[],int size,int val,int inorderStart,int inorderEnd){
+    for(int i=inorderStart;i<=inorderEnd;i++){
+        if(inorder[i]==val){
+            return i;
+        }
+    }
+}
+Node* solve(int inorder[],int preorder[],int size,int &preIndex,int inorderStart,int inorderEnd){
+    if(preIndex>=size||inorderStart>inorderEnd){
+        return NULL;
+    }
+    int val=preorder[preIndex];
+    Node*root=new Node(preorder[preIndex++]);
+    int pos=findPos(inorder,size,val,inorderStart,inorderEnd);
+    root->left=solve(inorder,preorder,size,preIndex,inorderStart,pos-1);
+    root->right=solve(inorder,preorder,size,preIndex,pos+1,inorderEnd);
+}
+void print(Node*root){
+    if(root==NULL){
+        return;
+    }
+    print(root->left);
+    print(root->right);
+    cout<<root->data<<" ";
+}
+int main() {
+    int inorder[5]={3,1,4,5,2};
+    int preorder[5]={5,1,3,4,2};
+    int preIndex=0;
+    int inorderStart=0;
+    int inorderEnd=4;
+    int size=5;
+    Node*root=solve(inorder,preorder,size,preIndex,inorderStart,inorderEnd);
+    print(root);
+}
