@@ -1,0 +1,36 @@
+void solve(Node* root,int sum,int height,int &MaxSum,int &MaxHeight){
+        if(root->left==NULL && root->right==NULL){
+            sum=sum+root->data;
+            height+=1;
+            if(height>MaxHeight){
+                MaxSum=sum;
+                MaxHeight=height;
+            }
+            else if(height==MaxHeight){
+                MaxSum=max(sum,MaxSum);
+            }
+            return;
+        }
+        height+=1;
+        sum=sum+root->data;
+        if(root->left){
+            solve(root->left,sum,height,MaxSum,MaxHeight);
+        }
+        if(root->right){
+            solve(root->right,sum,height,MaxSum,MaxHeight);
+        }
+        return;
+    }
+    
+    int sumOfLongRootToLeafPath(Node *root)
+    {
+        if(root==NULL){
+            return 0;
+        }
+        int MaxSum=0;
+        int MaxHeight=0;
+        int sum=0;
+        int height=0;
+        solve(root,sum,height,MaxSum,MaxHeight);
+        return MaxSum;
+    }
