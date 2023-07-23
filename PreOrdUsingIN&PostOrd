@@ -1,0 +1,48 @@
+#include <iostream>
+using namespace std;
+class Node{
+    public:
+    int data;
+    Node* left;
+    Node* right;
+    Node(int data){
+        this->data=data;
+        left=NULL;
+        right=NULL;
+    }
+};
+int findPos(int inorder[],int size,int val,int inorderStart,int inorderEnd){
+    for(int i=inorderStart;i<=inorderEnd;i++){
+        if(inorder[i]==val){
+            return i;
+        }
+    }
+}
+Node* solve(int inorder[],int postorder[],int size,int &postIndex,int inorderStart,int inorderEnd){
+    if(postIndex<0||inorderStart>inorderEnd){
+        return NULL;
+    }
+    int val=postorder[postIndex];
+    Node*root=new Node(postorder[postIndex--]);
+    int pos=findPos(inorder,size,val,inorderStart,inorderEnd);
+    root->right=solve(inorder,postorder,size,postIndex,pos+1,inorderEnd);
+    root->left=solve(inorder,postorder,size,postIndex,inorderStart,pos-1);
+}
+void print(Node*root){
+    if(root==NULL){
+        return;
+    }
+    cout<<root->data<<" ";
+    print(root->left);
+    print(root->right);
+}
+int main() {
+    int inorder[6]={40,20,10,50,30,60};
+    int postorder[6]={40,20,50,60,30,10};
+    int postIndex=5;
+    int inorderStart=0;
+    int inorderEnd=5;
+    int size=6;
+    Node*root=solve(inorder,postorder,size,postIndex,inorderStart,inorderEnd);
+    print(root);
+}
