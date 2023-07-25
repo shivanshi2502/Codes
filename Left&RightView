@@ -1,0 +1,94 @@
+
+#include <iostream>
+#include<queue>
+#include<map>
+#include<vector>
+using namespace std;
+
+class Node{
+    public:
+    int data;
+    Node*left;
+    Node*right;
+    Node(int data){
+        this->data=data;
+        this->left=NULL;
+        this->right=NULL;
+    }
+};
+
+Node* buildTreeRec(){
+    int data;
+    cout<<"Enter data: "<<endl;
+    cin>>data;
+    if(data==-1){
+        return NULL;
+    }
+    else{
+        Node* root= new Node(data);
+        cout<<"Enter data to left of "<<data<<endl;
+        root->left=buildTreeRec();
+        cout<<"Enter data to right of "<<data<<endl;
+        root->right=buildTreeRec();
+        return root;
+    }
+}
+
+void leftview(Node*root,vector<int>&v,int level){
+    if(root==NULL){
+        return;
+    }
+    if(v.size()==level){
+        v.push_back(root->data);
+    }
+    if(root->left){
+        level++;
+        leftview(root->left,v,level);
+        level--;
+    }
+    if(root->right){
+        level++;
+        leftview(root->right,v,level);
+        level--;
+    }
+}
+
+void rightview(Node*root,vector<int>&v,int level){
+    if(root==NULL){
+        return;
+    }
+    if(v.size()==level){
+        //cout<<"level is: "<<level<<endl;
+        //cout<<"data is"<<root->data<<endl;
+        v.push_back(root->data);
+    }
+    if(root->right){
+        level++;
+        rightview(root->right,v,level);
+        level--;
+    }
+    if(root->left){
+        level++;
+        rightview(root->left,v,level);
+        level--;
+    }
+}
+
+int main()
+{
+    Node* root=buildTreeRec();
+    vector<int>v;
+    int level=0;
+    cout<<"printing left view "<<endl;
+    leftview(root,v,level);
+    for(int i=0;i<v.size();i++){
+        cout<<v[i]<<" ";
+    }
+    cout<<endl;
+    cout<<"printing right view "<<endl;
+    rightview(root,v,level);
+    for(int i=0;i<v.size();i++){
+        cout<<v[i]<<" ";
+    }
+    cout<<endl;
+}
