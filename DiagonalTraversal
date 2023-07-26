@@ -1,0 +1,51 @@
+// method-1 using map
+
+void solve(Node*&root,int hd,map<int,vector<int>>&mp){
+    if(root==NULL){
+        return;
+    }
+    //vector<int>ans;
+    mp[hd].push_back(root->data);
+    if(root->left){
+        solve(root->left,hd+1,mp);
+    }
+    if(root->right){
+        solve(root->right,hd,mp);
+    }
+}
+vector<int> diagonal(Node *root)
+{
+   map<int,vector<int>>mp;
+   solve(root,0,mp);
+   vector<int>v;
+   for(auto i:mp){
+       for(auto j:i.second){
+           v.push_back(j);
+       }
+   }
+   return v;
+}
+
+
+//method-2 using queue
+
+vector<int> diagonal(Node *root){
+    vector<int>ans;
+    if(root==NULL){
+        return ans;
+    }
+    queue<Node*>q;
+    q.push(root);
+    while(!q.empty()){
+        Node* temp=q.front();
+        q.pop();
+        while(temp){
+            ans.push_back(temp->data);
+            if(temp->left){
+               q.push(temp->left);
+            }
+            temp=temp->right;
+        }
+    }
+    return ans;
+}
