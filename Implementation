@@ -65,10 +65,52 @@ void TakeInput(Node* &root){
     return;
 }
 
+bool Search(Node*root,int target){
+    if(root==NULL){
+        return false;
+    }
+    if(root->data==target){
+        return true;
+    }
+    else if(root->data > target){
+        return Search(root->left,target);
+    }
+    else{
+        return Search(root->right,target);
+    }
+}
+
+int MinVal(Node*root){
+    if(root== NULL){
+        return -1;
+    }
+    Node*temp=root;
+    while(temp->left!=NULL){
+        temp=temp->left;
+    }
+    return temp->data;
+}
+
+int MaxVal(Node*root){
+    if(root== NULL){
+        return -1;
+    }
+    Node*temp=root;
+    while(temp->right!=NULL){
+        temp=temp->right;
+    }
+    return temp->data;
+}
+
 int main()
 {
     Node*root=NULL;
     TakeInput(root);
     cout<<"Printing tree"<<endl;
     LevelOrderTraversal2(root);
+    cout<<endl;
+    cout<<"val present or not"<<endl;
+    cout<<Search(root,11)<<endl;
+    cout<<"Min Val in BST: "<<MinVal(root)<<endl;
+    cout<<"Max Val in BST: "<<MaxVal(root)<<endl;
 }
