@@ -1,0 +1,36 @@
+int solve(Node* node){
+        if(node==NULL){
+            return 0;
+        }
+        if(node->left==NULL && node->right==NULL){
+            int temp=node->data;
+            node->data=0;
+            return temp;
+        }
+        int a=0,b=0;
+        if(node->left){
+            a=solve(node->left);
+        }
+        if(node->right){
+            b=solve(node->right);
+        }
+        int c=node->data;
+        if(node->left!=NULL && node->right!=NULL){
+            node->data=a+b+node->left->data+node->right->data;
+        }
+        else if(node->left==NULL && node->right!=NULL){
+            node->data=a+b+node->right->data;
+        }
+        else if(node->left!=NULL && node->right==NULL){
+            node->data=a+b+node->left->data;
+        }
+        return c;
+    }
+
+void toSumTree(Node *node){
+      if(node==NULL){
+            return;
+        }
+        int a=solve(node);
+        return;
+ }
