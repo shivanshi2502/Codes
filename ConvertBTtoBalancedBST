@@ -1,0 +1,27 @@
+void inorderTraversal(Node *root,vector<int>&inorder){
+        if(root==NULL){
+            return;
+        }
+        inorderTraversal(root->left,inorder);
+        inorder.push_back(root->data);
+        inorderTraversal(root->right,inorder);
+    }
+    void solve(Node*&root,int st,int end,vector<int>&inorder){
+        int mid=(st+end)/2;
+        if(st>end||root==NULL){
+            return;
+        }
+        root->data=inorder[mid];
+        solve(root->left,st,mid-1,inorder);
+        solve(root->right,mid+1,end,inorder);
+    }
+    Node *binaryTreeToBST (Node *root)
+    {
+        vector<int>inorder;
+        inorderTraversal(root,inorder);
+        sort(inorder.begin(),inorder.end());
+        int st=0;
+        int end=inorder.size()-1;
+        solve(root,st,end,inorder);
+        return root;
+    }
