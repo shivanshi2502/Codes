@@ -1,0 +1,25 @@
+ector<int> LLtoArray(ListNode*head){
+        vector<int>result;
+        while(head!=NULL){
+            result.push_back(head->val);
+            head=head->next;
+        }
+        return result;
+    }
+    TreeNode* solve(vector<int>result,int start,int end){
+        if(start>end){
+            return NULL;
+        }
+        int mid=(start+end)/2;
+        TreeNode*root=new TreeNode(result[mid]);
+        root->left=solve(result,start,mid-1);
+        root->right=solve(result,mid+1,end);
+        return root;
+    }
+    TreeNode* sortedListToBST(ListNode* head) {
+        if(head==NULL){
+            return NULL;
+        }
+        vector<int>result=LLtoArray(head);
+        return solve(result,0,result.size()-1);
+    }
