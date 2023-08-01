@@ -1,0 +1,45 @@
+class arguments{
+    public:
+    int maxVal;
+    int minVal;
+    int size;
+    bool isValid;
+
+    arguments(int max,int min, int size,bool valid){
+        this->maxVal=max;
+        this->minVal=min;
+        this->size=size;
+        this->isValid=valid;
+    }
+};
+arguments* solve(TreeNode<int>* root,int &ans){
+    if(root==NULL){
+        arguments* ans=new arguments(INT_MIN,INT_MAX,0,true);
+        return ans;
+    }
+    arguments*leftAns=solve(root->left,ans);
+    arguments*rightAns=solve(root->right,ans);
+    arguments* rootAns=new arguments(INT_MIN,INT_MAX,0,true);
+    rootAns->size=leftAns->size+rightAns->size+1;
+    rootAns->maxVal=max(root->data,rightAns->maxVal);
+    rootAns->minVal=min(root->data,leftAns->minVal);
+    if((leftAns->maxVal < root->data && rightAns->minVal > root->data)&&(leftAns->isValid==true && rightAns->isValid==true)){
+        rootAns->isValid=true;
+    }
+    else{
+        rootAns->isValid=false;
+    }
+    if(rootAns->isValid){
+        ans=max(ans,rootAns->size);
+    }
+    return rootAns;
+}
+int largestBST(TreeNode<int>* root) 
+{
+    if(root==NULL){
+        return 0;
+    }
+    int ans=0;
+    arguments* result=solve(root,ans);
+    return ans;
+}
