@@ -1,0 +1,37 @@
+void heapify(vector<int>&ans,int n,int i){
+        if(i>=n/2){
+            return;
+        }
+        int largest=i;
+        int leftChild=2*i+1;
+        int RightChild=leftChild+1;
+        if(leftChild<n && ans[leftChild]>ans[i]){
+            largest=leftChild;
+        }
+        if(RightChild<n && ans[RightChild]>ans[largest]){
+            largest=RightChild;
+        }
+        if(largest!=i){
+            swap(ans[largest],ans[i]);
+            heapify(ans,n,largest);
+        }
+        else{
+            return;
+        }
+    }
+    void makeHeap(vector<int>&ans,int n){
+        for(int i=(n/2)-1;i>=0;i--){
+            heapify(ans,n,i);
+        }
+    }
+    vector<int> mergeHeaps(vector<int> &a, vector<int> &b, int n, int m) {
+        vector<int>ans;
+        for(int i=0;i<n;i++){
+            ans.push_back(a[i]);
+        }
+        for(int i=0;i<m;i++){
+            ans.push_back(b[i]);
+        }
+        makeHeap(ans,n+m);
+        return ans;
+    }
