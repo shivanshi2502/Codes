@@ -1,0 +1,67 @@
+bool CompleteBT(BinaryTreeNode<int>* root){
+    queue<BinaryTreeNode<int>*>q;
+    q.push(root);
+    bool temp=false;
+    while(!q.empty()){
+        BinaryTreeNode<int>* front=q.front();
+        q.pop();
+        if(front->left){
+            if(temp){
+                return false;
+            }
+            q.push(root->left);
+        }
+        else{
+            temp=true;
+        }
+        if(front->right){
+            if(temp){
+                return false;
+            }
+            q.push(root->right);
+        }
+        else{
+            temp=true;
+        }
+    }
+    return true;
+}
+bool solve(BinaryTreeNode<int>* root){
+    if(root->left==NULL && root->right==NULL){
+        return true;
+    }
+    if(root==NULL){
+        return true;
+    }
+    bool left=solve(root->left);
+    bool right=solve(root->right);
+    if(left==true && right==true){
+        if(root->left!=NULL && root->right!=NULL&&root->data > root->left->data && root->data > root->right->data){
+            return true;
+        }
+        else if(root->left!=NULL&& root->right==NULL &&root->data > root->left->data){
+            return true;
+        }
+        return false;
+    }
+    return false;
+}
+bool isBinaryHeapTree(BinaryTreeNode<int>* root) 
+{
+    if(root==NULL){
+        return true;
+    }
+    bool cbt=CompleteBT(root);
+    if(cbt){
+        bool parentNode=solve(root);
+        if(parentNode==true){
+           return true;
+        }
+        else{
+           return false;
+        }
+    }
+    else{
+        return false;
+    }
+}
