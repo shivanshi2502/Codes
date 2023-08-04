@@ -1,0 +1,25 @@
+void inorder(Node*root,queue<int>&v){
+        if(root==NULL){
+            return;
+        }
+        inorder(root->left,v);
+        v.push(root->data);
+        inorder(root->right,v);
+    }
+    void BuildMaxHeap(Node*&root,queue<int>&q){
+        if(root==NULL){
+            return;
+        }
+        BuildMaxHeap(root->left,q);
+        BuildMaxHeap(root->right,q);
+        int val=q.front();
+        q.pop();
+        root->data=val;
+    }
+    void convertToMaxHeapUtil(Node* root)
+    {
+        queue<int>q;
+        inorder(root,q);
+        BuildMaxHeap(root,q);
+        return;
+    }  
