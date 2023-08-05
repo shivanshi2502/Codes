@@ -1,0 +1,55 @@
+class info{
+        public:
+        ListNode* temp;
+        int i;
+        info(ListNode*t,int i){
+            this->temp=t;
+            this->i=i;
+        }
+    };
+    class compare{
+        public:
+        bool operator()(info*a,info*b){
+            return a->temp->val > b->temp->val;
+        }
+    };
+    ListNode* mergeKLists(vector<ListNode*>& lists) {
+        if(lists.size()==0){
+            return NULL;
+        }
+        priority_queue<info*,vector<info*>,compare>pq;
+        ListNode* ansHead=NULL;
+        ListNode* ansTail=NULL;
+        for(int i=0;i<lists.size();i++){
+            ListNode*temp=lists[i];
+            if(temp!=NULL){
+                info* head=new info(temp,i);
+                pq.push(head);
+            }
+        }
+        while(!pq.empty()){
+            ListNode*topNode;
+            int index;
+            if(ansHead==NULL&&ansTail==NULL){
+                info*top=pq.top();
+                topNode=top->temp;
+                index=top->i;
+                pq.pop();
+                ansHead=topNode;
+                ansTail=topNode;
+            }
+            else{
+                info*top=pq.top();
+                topNode=top->temp;
+                index=top->i;
+                pq.pop();
+                ansTail->next=topNode;
+                ansTail=topNode;
+            }
+            if(topNode->next!=NULL){
+                info* temp=new info(topNode->next,index);
+                pq.push(temp);
+            }
+        }
+        return ansHead;
+    }
