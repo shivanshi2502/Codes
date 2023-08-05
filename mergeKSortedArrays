@@ -1,0 +1,83 @@
+//method-1
+
+vector<int> mergeKArrays(vector<vector<int>> arr, int k)
+    {
+        vector<int>ans;
+        priority_queue<int,vector<int>,greater<int>>pq;
+        for(int i=0;i<k;i++){
+            for(int j=0;j<k;j++){
+                pq.push(arr[i][j]);
+            }
+        }
+        while(!pq.empty()){
+            int temp=pq.top();
+            ans.push_back(temp);
+            pq.pop();
+        }
+        return ans;
+    }
+
+
+
+//method-2
+
+#include <iostream>
+#include<queue>
+#include<vector>
+using namespace std;
+class info{
+    public:
+    int data;
+    int topRow;
+    int topCol;
+    
+    info(int val,int row,int col){
+        this->data=val;
+        this->topRow=row;
+        this->topCol=col;
+    }
+};
+class compare{
+    public:
+    bool operator()(info*a,info*b){
+        return a->data > b->data;
+    }
+};
+vector<int> solve(int arr[][6],int k,int n){
+    vector<int>ans;
+    //create a min heap
+    priority_queue<info*,vector<info*>,compare>pq;
+    //insert first elem of all arrays
+    for(int i=0;i<k;i++){
+        info*temp=new info(arr[i][0],i,0);
+        pq.push(temp);
+    }
+    //iterate over rest elements
+    while(!pq.empty()){
+        info*temp=pq.top();
+        pq.pop();
+        int topval=temp->data;
+        int topRow=temp->topRow;
+        int topCol=temp->topCol;
+        ans.push_back(topval);
+        if(topCol+1<n){
+            info*dummy=new info(arr[topRow][topCol+1],topRow,topCol+1);
+            pq.push(dummy);
+        }
+    }
+    return ans;
+}
+int main()
+{
+    int arr[][6]={{2,4,6,8,10,12},
+                  {3,9,15,18,21,24},
+                  {5,20,25,30,35,40}
+                 };
+    int k=3;
+    int n=6;
+    vector<int>ans=solve(arr,k,n);
+    for(auto i:ans){
+        cout<<i<<" ";
+    }
+    cout<<endl;
+}
