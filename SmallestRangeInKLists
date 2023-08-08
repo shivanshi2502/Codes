@@ -1,0 +1,58 @@
+class info{
+        public:
+        int data;
+        int row;
+        int col;
+
+        info(int val,int r,int c){
+            this->data=val;
+            this->row=r;
+            this->col=c;
+        }
+    };
+    class myComp{
+        public:
+        bool operator()(info*a,info*b){
+        return a->data > b->data;
+        }
+    };
+    vector<int> smallestRange(vector<vector<int>>& nums) {
+        vector<int>ans;
+        priority_queue<info*,vector<info*>,myComp>pq;
+        int mini=INT_MAX;
+        int maxi=INT_MIN;
+        for(int i=0;i<nums.size();i++){
+            info*temp=new info(nums[i][0],i,0);
+            mini=min(nums[i][0],mini);
+            maxi=max(nums[i][0],maxi);
+            pq.push(temp);
+        }
+        int range=maxi-mini;
+        int ansMin=mini;
+        int ansMax=maxi;
+        while(!pq.empty()){
+            info*topNode=pq.top();
+            int topVal=topNode->data;
+            int topRow=topNode->row;
+            int topCol=topNode->col;
+            mini=topVal;
+            int currRange=maxi-mini;
+            if(currRange<range){
+                range=currRange;
+                ansMin=mini;
+                ansMax=maxi;
+            }
+            pq.pop();
+            if(topCol+1<nums[topRow].size()){
+                maxi=max(maxi,nums[topRow][topCol+1]);
+                info*newNode=new info(nums[topRow][topCol+1],topRow,topCol+1);
+                pq.push(newNode);
+            }
+            else{
+                break;
+            }
+        }
+        ans.push_back(ansMin);
+        ans.push_back(ansMax);
+        return ans;
+    }
