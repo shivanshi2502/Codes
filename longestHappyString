@@ -1,0 +1,75 @@
+class info{
+        public:
+        char ch;
+        int count;
+        info(char ch,int c){
+            this->ch=ch;
+            count=c;
+        }
+    };
+    class comp{
+        public:
+        bool operator()(info*a,info*b){
+            return a->count < b->count;
+        }
+    };
+    string longestDiverseString(int a, int b, int c) {
+        priority_queue<info*,vector<info*>,comp>pq;
+        if(a>0){
+            info* nodeA=new info('a',a);
+            pq.push(nodeA);
+        }
+        if(b>0){
+            info* nodeB=new info('b',b);
+            pq.push(nodeB);
+        }
+        if(c>0){
+            info* nodeC=new info('c',c);
+            pq.push(nodeC);
+        }
+        string ans="";
+        while(pq.size()>1){
+            info*first=pq.top();pq.pop();
+            info*second=pq.top();pq.pop();
+            if(first->count >=2 ){
+                ans=ans+first->ch;
+                first->count--;
+                ans=ans+first->ch;
+                first->count--;
+            }
+            else{
+                ans=ans+first->ch;
+                first->count--;
+            }
+            if(second->count>=2 && second->count > first->count){
+                ans=ans+second->ch;
+                second->count--;
+                ans=ans+second->ch;
+                second->count--;
+            }
+            else{
+                ans=ans+second->ch;
+                second->count--;
+            }
+            if(first->count>0){
+                pq.push(first);
+            }
+            if(second->count>0){
+                pq.push(second);
+            }
+        }
+        if(pq.size()==1){
+            info*first=pq.top();pq.pop();
+            if(first->count >=2 ){
+                ans=ans+first->ch;
+                first->count--;
+                ans=ans+first->ch;
+                first->count--;
+            }
+            else{
+                ans=ans+first->ch;
+                first->count--;
+            }
+        }
+        return ans;
+    }
