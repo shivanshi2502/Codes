@@ -1,0 +1,57 @@
+class info{
+        public:
+        char data;
+        int freq;
+        info(char ch,int i){
+            data=ch;
+            freq=i;
+        }
+    };
+    class myComp{
+        public:
+        bool operator()(info*a,info*b){
+            return a->freq < b->freq;
+        }
+    };
+    string reorganizeString(string s) {
+        int freq[26]={0};
+        for(int i=0;i<s.length();i++){
+            freq[s[i]-'a']++;
+        }
+        priority_queue<info*,vector<info*>,myComp>pq;
+        for(int i=0;i<26;i++){
+            if(freq[i]>0){
+                info* temp=new info(i+'a',freq[i]);
+                pq.push(temp);
+            }
+        }
+        string ans="";
+        while(pq.size()>1){
+            info*first=pq.top();
+            pq.pop();
+            info*second=pq.top();
+            pq.pop();
+            ans=ans+first->data;
+            first->freq--;
+            ans=ans+second->data;
+            second->freq--;
+            if(first->freq>=1){
+                pq.push(first);
+            }
+            if(second->freq>=1){
+                pq.push(second);
+            }
+        }
+        if(pq.size()==1){
+            info*temp=pq.top();
+            pq.pop();
+            if(temp->freq==1){
+                ans=ans+temp->data;
+                temp->freq--;
+            }
+            else{
+                return "";
+            }
+        }
+        return ans;
+    }
