@@ -1,0 +1,77 @@
+#include <iostream>
+
+using namespace std;
+class TrieNode{
+    public:
+    char data;
+    TrieNode* children[26];
+    bool isTerminal;
+    TrieNode(char ch){
+        this->data=ch;
+        for(int i=0;i<26;i++){
+            children[i]=NULL;
+        }
+        this->isTerminal=false;
+    }
+};
+void insertWord(TrieNode*&root,string s){
+    cout<<"printing "<<s<<endl;
+    if(s.length()==0){
+        root->isTerminal=true;
+        return;
+    }
+    char ch=s[0];
+    TrieNode*child;
+    if(root->children[ch-'a']==NULL){
+        //not present so create node and point root towards that new node
+        child= new TrieNode(ch);
+        root->children[ch-'a']=child;
+    }
+    else{
+        //present so point root towards that node
+        child=root->children[ch-'a'];
+    }
+    insertWord(child,s.substr(1));
+}
+bool searchWord(TrieNode*&root,string s){
+    if(s.length()==0){
+        if(root->isTerminal==true){
+            return true;
+        }
+        return false;
+    }
+    char ch=s[0];
+    TrieNode*child;
+    if(root->children[ch-'a']==NULL){
+        //not present
+        return false;
+    }
+    else{
+        //present
+        child=root->children[ch-'a'];
+        return searchWord(child,s.substr(1));
+    }
+}
+void deletion(TrieNode*&root,string s){
+    cout<<"deleting "<<s<<endl;
+    if(s.length()==0){
+        root->isTerminal=false;
+        return;
+    }
+    deletion(root->children[s[0]-'a'],s.substr(1));
+}
+int main()
+{
+    TrieNode*root=new TrieNode('-');
+    insertWord(root,"coding");
+    insertWord(root,"code");
+    insertWord(root,"coder");
+    insertWord(root,"codeHelp");
+    if(searchWord(root,"coding")){
+        cout<<"present "<<endl;
+    }
+    else{
+        cout<<"absent "<<endl;
+    }
+    deletion(root,"coding");
+}
