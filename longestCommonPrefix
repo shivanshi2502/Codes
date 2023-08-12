@@ -1,0 +1,63 @@
+class TrieNode{
+    public:
+    char data;
+    TrieNode* children[26];
+    int childCount;
+    bool isTerminal;
+    TrieNode(char ch){
+        this->data=ch;
+        for(int i=0;i<26;i++){
+            children[i]=NULL;
+        }
+        this->childCount=0;
+        this->isTerminal=false;
+    }
+};
+void insertWord(TrieNode*&root,string s){
+    cout<<"printing "<<s<<endl;
+    if(s.length()==0){
+        root->isTerminal=true;
+        return;
+    }
+    char ch=s[0];
+    TrieNode*child;
+    if(root->children[ch-'a']==NULL){
+        //not present so create node and point root towards that new node
+        child= new TrieNode(ch);
+        root->childCount++;
+        root->children[ch-'a']=child;
+    }
+    else{
+        //present so point root towards that node
+        child=root->children[ch-'a'];
+    }
+    insertWord(child,s.substr(1));
+}
+void solve(TrieNode*root,string &ans,string first){
+    if(root->isTerminal==true){
+        return;
+    }
+    for(int i=0;i<first.length();i++){
+        char ch=first[i];
+        if(root->isTerminal==true){
+            return;
+        }
+        if(root->children[ch-'a']==NULL||root->childCount!=1){
+            return;
+        }
+        else{
+            ans=ans+ch;
+            root=root->children[ch-'a'];
+        }
+    }
+}
+string longestCommonPrefix(vector<string>& strs){
+        TrieNode*root=new TrieNode('-');
+        for(int i=0;i<strs.size();i++){
+            insertWord(root,strs[i]);
+        }
+        string first=strs[0];
+        string ans="";
+        solve(root,ans,first);
+        return ans;
+    }
