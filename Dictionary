@@ -1,0 +1,92 @@
+#include <iostream>
+#include<vector>
+using namespace std;
+
+class TrieNode{
+    public:
+    char data;
+    TrieNode* children[26];
+    int childCount;
+    bool isTerminal;
+    TrieNode(char ch){
+        this->data=ch;
+        for(int i=0;i<26;i++){
+            children[i]=NULL;
+        }
+        this->childCount=0;
+        this->isTerminal=false;
+    }
+};
+void insertWord(TrieNode*&root,string s){
+    if(s.length()==0){
+        root->isTerminal=true;
+        return;
+    }
+    char ch=s[0];
+    TrieNode*child;
+    if(root->children[ch-'a']==NULL){
+        //not present so create node and point root towards that new node
+        child= new TrieNode(ch);
+        root->childCount++;
+        root->children[ch-'a']=child;
+    }
+    else{
+        //present so point root towards that node
+        child=root->children[ch-'a'];
+    }
+    insertWord(child,s.substr(1));
+}
+void getSuggestions(TrieNode*curr,vector<string>&output,string &prefix){
+    if(curr->isTerminal==true){
+        //store
+        output.push_back(prefix);
+    }
+    //a to z tkk choice dedo
+    for(int i=0;i<26;i++){
+        if(curr->children[i]){
+            //child exist
+            prefix.push_back(i+'a');
+            getSuggestions(curr->children[i],output,prefix);
+            prefix.pop_back();
+        }
+    }
+}
+void solve(TrieNode*root,string st,vector<vector<string>>&answer){
+    TrieNode*prev=root;
+    string prefix="";
+    for(int i=0;i<st.length();i++){
+        char lastch=st[i];
+        TrieNode* curr=prev->children[lastch-'a'];
+        if(curr==NULL){
+            break;
+        }
+        else{
+            //saare suggestions store krk lao
+            vector<string>output;
+            prefix.push_back(lastch);
+            getSuggestions(curr,output,prefix);
+            answer.push_back(output);
+            prev=curr;
+        }
+    }
+}
+int main()
+{
+    TrieNode*root=new TrieNode('-');
+    insertWord(root,"coding");
+    insertWord(root,"coder");
+    insertWord(root,"codehelp");
+    insertWord(root,"code");
+    insertWord(root,"codeverse");
+    insertWord(root,"codingdunia");
+    insertWord(root,"codeforces");
+    string st="codef";
+    vector<vector<string>>answer;
+    solve(root,st,answer);
+    for(int i=0;i<answer.size();i++){
+        for(int j=0;j<answer[i].size();j++){
+            cout<<answer[i][j]<<" ";
+        }
+        cout<<endl;
+    }
+}
