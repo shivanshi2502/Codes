@@ -1,0 +1,63 @@
+int solveUsingRec(vector<int>& coins, int amount){
+        if(amount==0){
+            return 0;
+        }
+        if(amount<0){
+            return INT_MAX;
+        }
+        int ans=INT_MAX;
+        for(int i=0;i<coins.size();i++){
+            int temp=solveUsingRec(coins,amount-coins[i]);
+            if(temp!=INT_MAX){
+                ans=min(ans,temp+1);
+            }
+        }
+        return ans;
+    }
+    int solveUsingTopDown(vector<int>& coins, int amount,vector<int>&dp){
+        if(amount==0){
+            return 0;
+        }
+        if(amount<0){
+            return INT_MAX;
+        }
+        if(dp[amount]!=-1){
+            return dp[amount];
+        }
+        int ans=INT_MAX;
+        for(int i=0;i<coins.size();i++){
+            int temp=solveUsingTopDown(coins,amount-coins[i],dp);
+            if(temp!=INT_MAX){
+                ans=min(ans,temp+1);
+            }
+        }
+        dp[amount]=ans;
+        return ans;
+    }
+    int solveUsingBottomUp(vector<int>& coins, int amount){
+        vector<int>dp(amount+1,INT_MAX);
+        dp[0]=0;
+        for(int i=1;i<=amount;i++){
+            int mini=INT_MAX;
+            for(int j=0;j<coins.size();j++){
+                if(i-coins[j]>=0 && dp[i-coins[j]]!=INT_MAX){
+                    int ans=dp[i-coins[j]];
+                    mini=min(mini,ans+1);
+                }
+            }
+            dp[i]=min(dp[i],mini);
+        }
+        return dp[amount];
+    }
+    int coinChange(vector<int>& coins, int amount) {
+        int ans= solveUsingRec(coins,amount);
+        vector<int>dp(amount+1,-1);
+        int ans=solveUsingTopDown(coins,amount,dp);
+        int ans=solveUsingBottomUp(coins,amount);
+        if(ans!=INT_MAX){
+            return ans;
+        }
+        else{
+            return -1;
+        }
+    }
