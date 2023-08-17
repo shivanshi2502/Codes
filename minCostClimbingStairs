@@ -1,0 +1,50 @@
+int solve(vector<int>& cost,int index,int totalcost,int &ans){
+        if(index>=cost.size()){
+            ans=min(ans,totalcost);
+            return totalcost;
+        }
+        int oneStep=solve(cost,index+1,totalcost+cost[index],ans);
+        int twoStep=solve(cost,index+2,totalcost+cost[index],ans);
+        return min(oneStep,twoStep);
+    }
+    int minCostClimbingStairs(vector<int>& cost) {
+        int totalcost=0;
+        int index=0;
+        int ans=INT_MAX;
+        int a=solve(cost,index,totalcost,ans);
+        index=1;
+        ans=INT_MAX;
+        int b=solve(cost,index,totalcost,ans);
+        return min(a,b);
+    }
+    int solve(vector<int>& cost,int index,vector<int>&dp){
+        if(index<0){
+            return 0;
+        }
+        if(index==1||index==0){
+            return cost[index];
+        }
+        if(dp[index]!=-1){
+            return dp[index];
+        }
+        int oneStep=solve(cost,index-1,dp)+cost[index];
+        int twoStep=solve(cost,index-2,dp)+cost[index];
+        dp[index]=min(oneStep,twoStep);
+        return dp[index];
+    }
+    int solveTab(vector<int>& cost){
+        vector<int>dp(cost.size()+1,-1);
+        dp[0]=cost[0];
+        dp[1]=cost[1];
+        for(int i=2;i<cost.size();i++){
+            dp[i]=cost[i]+min(dp[i-2],dp[i-1]);
+        }
+        return min(dp[cost.size()-1],dp[cost.size()-2]);
+    }
+    int minCostClimbingStairs(vector<int>& cost){
+        vector<int>dp(cost.size(),-1);
+        int index=cost.size()-1;
+        //as we can start from 0 and 1 index both 
+        return min(solve(cost,index,dp),solve(cost,index-1,dp));
+       return solveTab(cost);
+    }
