@@ -1,0 +1,71 @@
+#include <iostream>
+#include<vector>
+using namespace std;
+bool solveUsingRec(int arr[],int sum,int n){
+    if(sum==0){
+        return true;
+    }
+    if(n==0&&sum!=0){
+        return false;
+    }
+    if(arr[n-1]<=sum){
+        return (solveUsingRec(arr,sum-arr[n-1],n-1)||solveUsingRec(arr,sum,n-1));
+    }
+    else if(arr[n-1]>sum){
+        return solveUsingRec(arr,sum,n-1);
+    }
+}
+
+bool solveMem(int arr[],int sum,int n,vector<vector<bool>>&dp){
+    if(sum==0){
+        return true;
+    }
+    if(n==0&&sum!=0){
+        return false;
+    }
+    if(dp[n][sum]!=-1){
+        return dp[n][sum];
+    }
+    if(arr[n-1]<=sum){
+        return dp[n][sum]=(solveMem(arr,sum-arr[n-1],n-1,dp)||solveMem(arr,sum,n-1,dp));
+    }
+    else if(arr[n-1]>sum){
+        return dp[n][sum]=solveMem(arr,sum,n-1,dp);
+    }
+}
+
+bool solveTab(int arr[],int sum,int n){
+    vector<vector<bool>>dp(n+1,vector<bool>(sum+1,-1));
+    for(int i=0;i<n+1;i++){
+        for(int j=0;j<sum+1;j++){
+            if(j==0){
+                dp[i][j]=true;
+            }
+            if(i==0 && j!=0){
+                dp[i][j]=false;
+            }
+        }
+    }
+    for(int i=1;i<n+1;i++){
+        for(int j=1;j<sum+1;j++){
+            if(arr[i-1]<=j){
+                dp[i][j]=dp[i-1][j-arr[i-1]]||dp[i-1][j];
+            }
+            else{
+                dp[i][j]=dp[i-1][j];
+            }
+        }
+    }
+    return dp[n][sum];
+}
+
+int main() {
+    int arr[]={2,3,7,8,10};
+    int sum=11;
+    int n=5;
+    cout<<solveUsingRec(arr,sum,n);
+    vector<vector<bool>>dp(n+1,vector<bool>(sum+1,-1));
+    cout<<solveMem(arr,sum,n,dp);
+    cout<<solveTab(arr,sum,n);
+
+}
